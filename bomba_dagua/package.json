@@ -17,5 +17,8 @@
     "IC-2019"
   ],
   "author": "https://github.com/mrssolarisdev",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "websocket": "^1.0.31"
+  }
 }
