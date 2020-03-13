@@ -7,12 +7,22 @@
     <!--Favicon-->
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
- 	
-     <title>Biblioteca de desenvolvimento</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+     <title>Bomba dagua</title>
 
      <script type="text/javascript" defer>
+     function attBody(obj){
+       let converted = JSON.parse(obj);
+       let bomba = document.getElementById("estado");
+       let cx = document.getElementById("caixa");
+       bomba.innerHTML = "Estado:"+converted.estado+"-"+"Litros:"+converted.litros;
+       cx.style.height = converted.litros+"px";
+     }
      try{
         let connection = new WebSocket('ws://localhost:6790');
+        let messageCounter = 0;
 
         connection.onopen = function (event) {
             connection.send(`Conexão com o servidor bem sucedida.`); // Manda mensagem ao efetuar a conexão.
@@ -26,12 +36,15 @@
         // Log messages from the server
         connection.onmessage = function (e) {
             console.log(`Message from server: ${e.data}`);//Mostra os dados recebidos do servidor.
-            connection.send(`Confirmação de recepção de dados da bomba dagua.`);
+            messageCounter++;
+            connection.send(`Confirmação de recepção de dados da bomba dagua n° ${messageCounter}.`);
             //A cada mensagem recebida do servidor, manda a confirmação de que os dados foram realmente recebidos.
+            attBody(e.data);
         };
 
         connection.onclose = function (){
           console.log(`Conexão encerrada.`);
+          //document.write("Falha de conexão");
         }
         function click(){
           connection.close();
@@ -43,10 +56,49 @@
      
 
      </script>
+     <style type="text/css">
+        body{
+          background: #ccc;
+          height: 100%;
+        }
+        #content{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+        }
+        #navegacao{
+          width: 35%;
+          background: linear-gradient(to bottom,#0990b9,#9209df);
+          padding: 2em;
+          color: white;
+          position: relative;
+          height: 100%;
+        }
+        #bomb-state{
+          background: #fff;
+          width: 65%;
+        }
+        #caixa {
+          width: 400px;
+          height: 300px;
+          background: #0990b9;
+        }
+     </style>
   </head>
 
   <body>
-
+    
+    <div id="content">
+      <nav id="navegacao" class="lead">
+        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+      </nav>
+      <section id="bomb-state">
+        <span id="estado"></span>
+        area da bomba
+        <div id="caixa"></div>
+      </section>
+    </div>
  
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

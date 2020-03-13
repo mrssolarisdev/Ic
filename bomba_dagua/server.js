@@ -18,9 +18,13 @@ wsServer = new WebSocketServer({
 // WebSocket server
 wsServer.on('request', function(request) {
   var connection = request.accept(null, request.origin);
-
+  let litros = 300;
   setInterval(() => { 
-    connection.send(`Enviando dados da bomba d'agua`);
+    connection.send(JSON.stringify({
+      "litros" : litros,
+      "estado" : true
+    }));
+    litros -= 30;
   }, 6000); //manda uma mensagem para o cliente de 6 em 6 segundos.
   
   //Listener de mensagem do lado do cliente.
