@@ -1,0 +1,21 @@
+{
+  "name": "bomba_dagua",
+  "version": "1.0.0",
+  "description": "Projeto do ic",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mrssolarisdev/Ic/tree/master/bomba_dagua"
+  },
+  "keywords": [
+    "water",
+    "IoT",
+    "IC-2019"
+  ],
+  "author": "https://github.com/mrssolarisdev",
+  "license": "MIT"
+}
