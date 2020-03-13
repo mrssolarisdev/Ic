@@ -3,11 +3,9 @@
 var WebSocketServer = require('websocket').server;
 var http = require('http');
 
-var server = http.createServer(function(request, response) {
-  // process HTTP request. 
-});
-server.listen(6790, function() { 
-  console.warn(`Escutando`);
+var server = http.createServer();
+server.listen(8080, next => {
+  console.warn(`Escutando`, next);
 });
 
 // create the server
@@ -16,28 +14,28 @@ wsServer = new WebSocketServer({
 });
 
 // WebSocket server
-wsServer.on('request', function(request) {
+wsServer.on('request', request => {
   var connection = request.accept(null, request.origin);
   let litros = 300;
-  setInterval(() => { 
+  setInterval(() => {
     connection.send(JSON.stringify({
-      "litros" : litros,
-      "estado" : true
+      "litros": litros,
+      "estado": true
     }));
     litros -= 30;
   }, 6000); //manda uma mensagem para o cliente de 6 em 6 segundos.
-  
+
   //Listener de mensagem do lado do cliente.
-  connection.on('message', function(mensagem) {
-      // Process WebSocket message
-      console.log("Message from client");
-      console.log(mensagem);
+  connection.on('message', mensagem => {
+    // Process WebSocket message
+    console.log("Message from client");
+    console.log(mensagem);
   });
 
   //Fecha a conexão.
-  connection.on('close', function(conexao) {
+  connection.on('close', socket => {
     // Connection closes
-    console.log(`Conexao com ${conexao} encerrada`);
-    connection.close();
+    console.log(`Conexao com ${socket} encerrada`);
+    // con/ connection.close();
   });
 });
